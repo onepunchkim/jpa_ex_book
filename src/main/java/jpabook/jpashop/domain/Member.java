@@ -2,23 +2,41 @@ package jpabook.jpashop.domain;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Member extends BaseEntity {
+public class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "MEMBER_ID")
     private Long id;
-    private String name;
-    private String city;
-    private String street;
-    private String zipcode;
+
+    @Column(name = "USERNAME")
+    private String username;
+
+    //기간 Period
+    @Embedded
+    private Period workPeriod;
+
+    //주소
+    @Embedded
+    private Address homeAddress;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "city",
+                            column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name = "street",
+                            column = @Column(name = "WORK_STREET")),
+            @AttributeOverride(name = "zipcode",
+                            column = @Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
-
 
     public Long getId() {
         return id;
@@ -28,35 +46,35 @@ public class Member extends BaseEntity {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getCity() {
-        return city;
+    public Period getWorkPeriod() {
+        return workPeriod;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
     }
 
-    public String getStreet() {
-        return street;
+    public Address getHomeAddress() {
+        return homeAddress;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
     }
 
-    public String getZipcode() {
-        return zipcode;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
