@@ -21,12 +21,12 @@ public class JpaMain {
         tx.begin();
 
         try {
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("city", "street", "1000"));
-            member.setWorkPeriod(new Period());
 
-            em.persist(member);
+            Book book = new Book();
+            book.setName("JPA");
+            book.setAuthor("asd");
+
+            em.persist(book);
 
             tx.commit();
         } catch (Exception e) {
